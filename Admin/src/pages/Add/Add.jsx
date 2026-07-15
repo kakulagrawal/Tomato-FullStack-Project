@@ -23,7 +23,7 @@ const Add = () => {
     }
     const onSubmitHandler = async (event) => {
         event.preventDefault();
-        const formData = new FromData();
+        const formData = new FormData();
         formData.append("name", data.name);
         formData.append("description", data.description);
         formData.append("category", data.category)
@@ -50,7 +50,7 @@ const Add = () => {
                 <div className="add-img-upload">
                     <p>Upload Image</p>
                     <label htmlFor="image">
-                        <img src={image ? URL.createObjectURL(image) : assets.upload_area} alt="" />
+                        <img src={image ? URL.createObjectURL(image) : assets.upload_area}/>
                     </label>
                     <input onChange={(e) => setimage(e.target.files[0])}
                         type="file" id='image' hidden required />
@@ -60,7 +60,7 @@ const Add = () => {
                     <input onChange={onChangeHandler} value={data.name}
                         type="text" name='name' placeholder='Type here ' />
                 </div>
-                <div className="add -product-desc flex-col">
+                <div className="add-product-desc flex-col">
                     <p> Product Description</p>
                     <textarea onChange={onChangeHandler} value={data.description}
                         name="description" rows="6" placeholder='Write Content here'
@@ -71,7 +71,7 @@ const Add = () => {
                         <p>Product Category</p>
                         <select onChange={onChangeHandler} name="category" >
                             <option value="Salad">Salad</option>
-                            <option value="Sandwhich">Sandwhich</option>
+                            <option value="Sandwich">Sandwich</option>
                             <option value="Deserts">Deserts</option>
                             <option value="cake">Cake</option>
                             <option value="Pure Veg">Pure Veg</option>
