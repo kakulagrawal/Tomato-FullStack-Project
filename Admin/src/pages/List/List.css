@@ -1,35 +1,121 @@
 .list-add{
     width: 100%;
-    margin-left: max(5vw,25px);
-    margin-right: max(5vw,25px);
-    margin-top: 50px;
     color: #6d6d6d;
     font-size: 16px;
 }
+
+.list-add p{
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
 .list-table{
     width: 100%;
 }
+
 .list-table-format{
     display: grid;
-    grid-template-columns: 0.5fr 2fr 1fr 1fr 0.5fr ;
+    grid-template-columns: 80px 1fr 150px 100px 2fr 220px;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
     padding: 12px 15px;
     border: 1px solid #cacaca;
-    font-size: 13px;
+    font-size: 14px;
 }
-.list-table-format.title{
+
+.list-table-format:first-child{
     background-color: #f9f9f9;
+    font-weight: 600;
 }
+
 .list-table-format img{
-    width: 50px;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
 }
-@media (max-width:600px){
+
+.list-table-format input{
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #cfcfcf;
+    border-radius: 6px;
+    outline: none;
+    font-size: 14px;
+}
+
+.list-table-format input:focus{
+    border-color: tomato;
+}
+
+.action-buttons{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.action-buttons button{
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: white;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.edit-btn{
+    background: #2196f3;
+}
+
+.edit-btn:hover{
+    background: #1976d2;
+}
+
+.delete-btn{
+    background: #f44336;
+}
+
+.delete-btn:hover{
+    background: #d32f2f;
+}
+
+.save-btn{
+    background: #4caf50;
+}
+
+.save-btn:hover{
+    background: #388e3c;
+}
+
+.cancel-btn{
+    background: #757575;
+}
+
+.cancel-btn:hover{
+    background: #616161;
+}
+
+@media(max-width:1000px){
+
     .list-table-format{
-        grid-template-columns: 1fr 3fr 1fr;
-        gap: 15px;
+        grid-template-columns: 70px 1fr;
+        gap: 10px;
+        font-size: 13px;
     }
-    .list-table-format.title{
+
+    .list-table-format:first-child{
         display: none;
     }
+
+    .action-buttons{
+        justify-content: flex-start;
+    }
+
+    .list-table-format img{
+        width: 50px;
+        height: 50px;
+    }
+
 }
