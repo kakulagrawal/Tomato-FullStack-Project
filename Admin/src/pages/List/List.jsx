@@ -16,11 +16,16 @@ const List = ({ url }) => {
     });
 
     const fetchList = async () => {
-        const response = await axios.get(`${url}/api/food/list`);
+        try {
+            const response = await axios.get(`${url}/api/food/list`);
 
-        if (response.data.success) {
-            setList(response.data.data);
-        } else {
+            if (response.data.success) {
+                setList(response.data.data);
+            } else {
+                toast.error("Error fetching food list");
+            }
+        } catch (error) {
+            console.log(error);
             toast.error("Error fetching food list");
         }
     };
@@ -30,22 +35,25 @@ const List = ({ url }) => {
     }, []);
 
     const removeFood = async (foodId) => {
+        try {
+            const response = await axios.post(
+                `${url}/api/food/remove`,
+                { _id: foodId }
+            );
 
-        const response = await axios.post(
-            `${url}/api/food/remove`,
-            { _id: foodId }
-        );
-
-        if (response.data.success) {
-            toast.success(response.data.message);
-            fetchList();
-        } else {
+            if (response.data.success) {
+                toast.success(response.data.message);
+                fetchList();
+            } else {
+                toast.error("Error");
+            }
+        } catch (error) {
+            console.log(error);
             toast.error("Error");
         }
     };
 
     const startEditing = (item) => {
-
         setEditId(item._id);
 
         setEditData({
@@ -61,33 +69,29 @@ const List = ({ url }) => {
     };
 
     const saveFood = async () => {
+        try {
+            const response = await axios.post(
+                `${url}/api/food/update`,
+                {
+                    _id: editId,
+                    ...editData
+                }
+            );
 
-        const response = await axios.post(
-            `${url}/api/food/update`,
-            {
-                _id: editId,
-                ...editData
+            if (response.data.success) {
+                toast.success(response.data.message);
+                setEditId(null);
+                fetchList();
+            } else {
+                toast.error(response.data.message);
             }
-        );
-
-        if (response.data.success) {
-
-            toast.success(response.data.message);
-
-            setEditId(null);
-
-            fetchList();
-
-        } else {
-
-            toast.error(response.data.message);
-
+        } catch (error) {
+            console.log(error);
+            toast.error("Error updating food");
         }
-
     };
 
     const handleChange = (e) => {
-
         const { name, value } = e.target;
 
         setEditData((prev) => ({
@@ -97,14 +101,13 @@ const List = ({ url }) => {
     };
 
     return (
-
         <div className="list-add flex-col">
 
             <p>All Foods List</p>
 
             <div className="list-table">
 
-                <div className="list-table-format">
+                <div className="list-table-format title">
                     <b>Image</b>
                     <b>Name</b>
                     <b>Category</b>
@@ -114,12 +117,11 @@ const List = ({ url }) => {
                 </div>
 
                 {list.map((item) => (
-
                     <div key={item._id} className="list-table-format">
 
                         <img
-                            src={`${url}/images/${item.image}`}
-                            alt=""
+                            src={item.image}
+                            alt={item.name}
                         />
 
                         {editId === item._id ? (
@@ -150,7 +152,6 @@ const List = ({ url }) => {
                                 />
 
                                 <div className="action-buttons">
-
                                     <button
                                         className="save-btn"
                                         onClick={saveFood}
@@ -164,9 +165,7 @@ const List = ({ url }) => {
                                     >
                                         Cancel
                                     </button>
-
                                 </div>
-
                             </>
                         ) : (
                             <>
@@ -174,12 +173,11 @@ const List = ({ url }) => {
 
                                 <p>{item.category}</p>
 
-                                <p>${item.price}</p>
+                                <p>₹{item.price}</p>
 
                                 <p>{item.description}</p>
 
                                 <div className="action-buttons">
-
                                     <button
                                         className="edit-btn"
                                         onClick={() => startEditing(item)}
@@ -193,20 +191,15 @@ const List = ({ url }) => {
                                     >
                                         Delete
                                     </button>
-
                                 </div>
-
                             </>
                         )}
-
                     </div>
-
                 ))}
 
             </div>
 
         </div>
-
     );
 };
 
