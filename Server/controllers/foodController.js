@@ -4,7 +4,6 @@ import fs from "fs";
 
 // Add Food
 const addFood = async (req, res) => {
-
     try {
 
         const result = await cloudinary.uploader.upload(req.file.path, {
@@ -18,7 +17,8 @@ const addFood = async (req, res) => {
             description: req.body.description,
             price: req.body.price,
             category: req.body.category,
-            image: result.secure_url
+            image: result.secure_url,
+            imagePublicId: result.public_id
         });
 
         await food.save();
@@ -38,12 +38,10 @@ const addFood = async (req, res) => {
         });
 
     }
-
 };
 
 // List Food
 const listFood = async (req, res) => {
-
     try {
 
         const foods = await foodModel.find({});
@@ -63,7 +61,6 @@ const listFood = async (req, res) => {
         });
 
     }
-
 };
 
 // Remove Food
@@ -71,6 +68,21 @@ const removeFood = async (req, res) => {
 
     try {
 
+        const food = await foodModel.findById(req.body._id);
+
+        if (!food) {
+            return res.json({
+                success: false,
+                message: "Food not found"
+            });
+        }
+
+        // Delete image from Cloudinary
+        if (food.imagePublicId) {
+            await cloudinary.uploader.destroy(food.imagePublicId);
+        }
+
+        // Delete food document
         await foodModel.findByIdAndDelete(req.body._id);
 
         res.json({
@@ -88,7 +100,6 @@ const removeFood = async (req, res) => {
         });
 
     }
-
 };
 
 // Update Food
@@ -127,7 +138,6 @@ const updateFood = async (req, res) => {
         });
 
     }
-
 };
 
 export {

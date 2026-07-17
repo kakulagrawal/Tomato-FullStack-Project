@@ -40,7 +40,7 @@ const Cart = () => {
                             <div key={item._id}>
                                 <div className="cart-items-title cart-items-item">
                                     <img
-                                        src={url + "/images/" + item.image}
+                                        src={item.image}
                                         alt={item.name}
                                     />
 
