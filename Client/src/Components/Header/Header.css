@@ -34,6 +34,10 @@
     font-size: max(1vw,13px);
     border-radius: 50px;
 }
+.header-contents button:hover{
+    border: 2px solid red;
+}
+
 @media (max-width:1050px) {
     .header-contents{
         max-width: 45%;
